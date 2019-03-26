@@ -1,6 +1,7 @@
 package net.lzzy.cinemanager.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 
 import android.os.Bundle;
@@ -14,11 +15,14 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import net.lzzy.cinemanager.R;
+import net.lzzy.cinemanager.fragments.CinemasFragment;
+import net.lzzy.cinemanager.fragments.OrdersFragment;
 
 /**
  * @author Administrator
  */
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
+    private FragmentManager manager=getSupportFragmentManager();
     private LinearLayout layoutMenu;
     private TextView tvTitle;
     private SearchView search;
@@ -53,31 +57,24 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        layoutMenu.setVisibility(View.GONE);
         switch (v.getId()) {
-            case R.id.bar_title_img_menu:
-                break;
-            case R.id.bar_title_tv_exit:
-                break;
-
             case R.id.bar_title_tv_add_cinema:
-                tvTitle.setText(R.string.bar_title_menu_add_cinema);
                 break;
-
             case R.id.bar_title_tv_view_cinema:
-                tvTitle.setText(R.string.bar_title_menu_cinema);
-                finish();
+                tvTitle.setText("影院列表");
+                manager.beginTransaction()
+                        .replace(R.id.fragment_container,new CinemasFragment())
+                        .commit();
                 break;
             case R.id.bar_title_tv_add_order:
-                tvTitle.setText(R.string.bar_title_menu_add_orders);
-                layoutMenu.setVisibility(View.GONE);
-                layoutAddOrder.setVisibility(View.VISIBLE);
                 break;
             case R.id.bar_title_tv_view_order:
-                tvTitle.setText(R.string.bar_title_menu_orders);
-                layoutMenu.setVisibility(View.GONE);
-                layoutAddOrder.setVisibility(View.GONE);
+                tvTitle.setText("我的订单");
+                manager.beginTransaction()
+                        .replace(R.id.fragment_container,new OrdersFragment())
+                        .commit();
                 break;
-
             default:
                 break;
         }
