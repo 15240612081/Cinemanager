@@ -18,8 +18,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import net.lzzy.cinemanager.R;
-import net.lzzy.cinemanager.fragments.AddCinemasFragment;
-import net.lzzy.cinemanager.fragments.AddOrdersFragment;
+import net.lzzy.cinemanager.fragments.AddCinemaFragment;
+import net.lzzy.cinemanager.fragments.AddOrderFragment;
 import net.lzzy.cinemanager.fragments.CinemasFragment;
 import net.lzzy.cinemanager.fragments.OrdersFragment;
 
@@ -86,12 +86,11 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private Fragment createFragment(int id) {
         switch (id) {
             case R.id.bar_title_tv_add_cinema:
-                return new AddCinemasFragment();
-
+                return new AddCinemaFragment();
             case R.id.bar_title_tv_view_cinema:
                 return new CinemasFragment();
             case R.id.bar_title_tv_add_order:
-                return new AddOrdersFragment();
+                return new AddOrderFragment();
             case R.id.bar_title_tv_view_order:
                 return new OrdersFragment();
             default:
