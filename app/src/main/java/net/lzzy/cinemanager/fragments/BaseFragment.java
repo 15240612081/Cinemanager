@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import net.lzzy.cinemanager.models.Order;
+
 import java.util.Objects;
 
 /**
@@ -40,4 +42,7 @@ public  abstract class BaseFragment extends Fragment {
     <T extends View> T find(@IdRes int id){
         return Objects.requireNonNull(getView()).findViewById(id);
     }
+    public abstract void search(String kw);
+
+    public abstract void save(Order order);
 }
