@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -33,7 +34,7 @@ import net.lzzy.cinemanager.utils.ViewUtils;
  */
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener ,
         OnFragmentInteractionListener,AddCinemaFragment.OnCinemaCreateListener,
-        AddOrderFragment.OnOrderCreateListener{
+        AddOrderFragment.OnOrderCreateListener, CinemasFragment.OnCinemaSelectedListener {
     private FragmentManager manager=getSupportFragmentManager();
     private LinearLayout layoutMenu;
     private TextView tvTitle;
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         }
         transaction.hide(hideFragment).show(showFragment).commit();
         tvTitle.setText(titleArray.get(showId));
+        search.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         FragmentTransaction transaction=manager.beginTransaction();
         if(cinemasFragment==null){
             //创建CinemasFragment同时要传Cinema对象进来
-            cinemasFragment=new CinemasFragment(cinema);
+            cinemasFragment=CinemasFragment.newInstance(cinema);
             fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragment);
             transaction.add(R.id.fragment_container,cinemasFragment);
         }else {
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         }
         transaction.hide(addCinemasFragment).show(cinemasFragment).commit();
         tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_cinema));
+        search.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -180,7 +183,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         FragmentTransaction transaction=manager.beginTransaction();
         if(ordersFragment==null){
             //创建CinemasFragment同时要传Cinema对象进来
-            ordersFragment=new OrdersFragment(order);
+            ordersFragment=OrdersFragment.newInstance(order);
             fragmentArray.put(R.id.bar_title_tv_view_order,ordersFragment);
             transaction.add(R.id.fragment_container,ordersFragment);
         }else {
@@ -188,5 +191,13 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         }
         transaction.hide(addOrderFragment).show(ordersFragment).commit();
         tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_order));
+        search.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCinemaSelected(String cinemaId) {
+        Intent intent=new Intent(this, CinemaOrdersActivity.class);
+        intent.putExtra(EXTRA_CINEMA_ID,cinemaId);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package net.lzzy.cinemanager.fragments;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import net.lzzy.cinemanager.R;
@@ -27,6 +29,7 @@ import java.util.List;
  * Description:
  */
 public class OrdersFragment extends BaseFragment {
+    public static final String ARG_NEW_ORDER = "order";
     private static final int MIN_DISTANCE=100;
     private List<Order> orders;
     private GenericAdapter<Order> adapter;
@@ -36,11 +39,21 @@ public class OrdersFragment extends BaseFragment {
     private boolean isDelete=false;
     private ListView lv;
 
-    public OrdersFragment(){
+    public static OrdersFragment newInstance(Order order){
+        OrdersFragment fragment=new OrdersFragment();
+        Bundle args=new Bundle();
+        args.putParcelable(ARG_NEW_ORDER,order);
+        fragment.setArguments(args);
+        return fragment;
+
     }
 
-    public OrdersFragment(Order order) {
-        this.order=order;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+            order=getArguments().getParcelable(ARG_NEW_ORDER);
+        }
     }
 
     @Override
